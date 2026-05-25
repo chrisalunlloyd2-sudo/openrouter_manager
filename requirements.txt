@@ -1,0 +1,8 @@
+redis
+tensorflow
+scikit-learn
+```
+
+[CMD]
+```bash
+pip install -r requirements.txt
