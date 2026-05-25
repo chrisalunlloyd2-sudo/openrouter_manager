@@ -6,3 +6,4 @@ github_token.txt
 __pycache__/
 .aider*
 .vscode/
+pedagogy_cognitive.db
