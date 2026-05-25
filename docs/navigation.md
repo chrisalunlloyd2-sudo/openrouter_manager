@@ -1,5 +1,3 @@
-[FILE: docs/navigation.md]
-```markdown
 # Navigation
 The openrouter_manager project consists of multiple pages, each with its own unique content. To ensure seamless navigation, we will create a comprehensive interlinking system.
 
@@ -28,33 +26,3 @@ This menu will be added to the footer of each page, providing a consistent and a
 ```bash
 # Update the navigation menu in each page
 sed -i 's/<!-- navigation -->/<!-- navigation -->\n[Home](/)\n[Documentation](/docs)\n[Case Studies](/docs/case_studies)\n[Research](/docs/research)\n[QA](/docs/qa)/g' docs/*.md
-```
-
-[FILE: docs/case_studies/example.md]
-```markdown
-# Example Case Study
-This is an example case study for the openrouter_manager project.
-
-## Introduction
-The openrouter_manager project was used to...
-
-## Conclusion
-The openrouter_manager project proved to be...
-
-## Navigation
-[Home](/)
-[Documentation](/docs)
-[Case Studies](/docs/case_studies)
-[Research](/docs/research)
-[QA](/docs/qa)
-```
-
-[CMD]
-```bash
-# Commit the changes
-git add .
-git commit -m "Interlinked all pages"
-git push origin main
-```
-
-[STEER: REFINE]
