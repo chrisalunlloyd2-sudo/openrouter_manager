@@ -1,0 +1,8 @@
+*.db
+oauth_creds.json
+github_token.txt
+.test_payload.txt
+*.log
+__pycache__/
+.aider*
+.vscode/
