@@ -51,6 +51,14 @@ def run_cognitive_layer(prompt):
         return ""
 
 def main():
+    # --- BOOTSTRAP CHECK (GEN 8) ---
+    if not os.path.exists("/data/data/com.termux/files/home/txt.txt"):
+        print("[Danube Director] Bootstrap anomaly detected: txt.txt missing.")
+        print("[Danube Director] Manifesting txt.txt...")
+        with open("/data/data/com.termux/files/home/txt.txt", "w") as f:
+            f.write("GEN 8 H2O MATRIX BOOTSTRAP\n")
+        print("[Danube Director] txt.txt stamped. Substrate verified.\n")
+
     print("=====================================================================")
     print(" DETERMINISTIC ARCHITECTURE ACTIVE ")
     print(" 1. Headless OpenRouter | 2. Danube Extractor | 3. GitHub Syphon ")
