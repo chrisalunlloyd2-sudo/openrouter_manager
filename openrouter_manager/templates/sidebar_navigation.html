@@ -1,0 +1,17 @@
+<div class="sidebar-navigation">
+  <div class="header">
+    <img src="logo.png" alt="Project Logo">
+    <h1>Open Router Manager</h1>
+  </div>
+  <ul class="navigation-menu">
+    {% for page in pages %}
+      <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="footer">
+    <p>&copy; 2023 Open Router Manager</p>
+    <ul>
+      <li><a href="https://github.com/chrisalunlloyd2-sudo/openrouter_manager">GitHub Repository</a></li>
+    </ul>
+  </div>
+</div>
