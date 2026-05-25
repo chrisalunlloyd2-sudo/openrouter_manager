@@ -1,5 +1,3 @@
-[FILE: content_architect.py]
-```python
 import numpy as np
 
 class ContentArchitect:
@@ -56,6 +54,3 @@ print(optimized_content)
 [CMD]
 ```bash
 python content_architect.py
-```
-
-[STEER: REFINE]
