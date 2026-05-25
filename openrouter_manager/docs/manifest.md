@@ -1,5 +1,3 @@
-[FILE: openrouter_manager/docs/manifest.md]
-```markdown
 # Manifest
 The following documents are part of the openrouter_manager project:
 
@@ -20,12 +18,3 @@ The following documents are part of the openrouter_manager project:
 git add docs/manifest.md
 git commit -m "Added manifest file"
 git push origin main
-```
-
-To proceed with the development of the openrouter_manager project, I present the following options:
-[1] PROCEED with creating the index.html file
-[2] ABORT and revisit the project structure
-
-Please select one of the options above.
-
-[STEER: REFINE]
