@@ -4,9 +4,11 @@ import re
 import subprocess
 
 # ==============================================================================
-# DANUBE EXECUTOR (NODE 2)
+# DANUBE EXECUTOR (NODE 2) - PATH-AWARE REFACTOR
 # Deterministic Headless Extraction Engine
 # ==============================================================================
+
+PROJECT_ROOT = "/data/data/com.termux/files/home/openrouter_manager"
 
 def execute(payload_file):
     print("[Danube Executor] Parsing headless payload...")
@@ -17,22 +19,27 @@ def execute(payload_file):
         print("[!] Danube Executor Error: Payload not found.")
         return
 
-    # Extract [FILE: path] blocks. We use split to handle nested markdown gracefully.
+    # Extract [FILE: path] blocks.
+    # We use a pattern that handles optional whitespace and robustly grabs filenames.
     parts = re.split(r'\[FILE:\s*(.+?)\]', content)
     if len(parts) > 1:
-        # parts[0] is text before first [FILE]. 
-        # Then it pairs: parts[1] is filename, parts[2] is content.
         for i in range(1, len(parts), 2):
             filepath = parts[i].strip()
+            
+            # Ensure filepath is relative to PROJECT_ROOT or absolute within it
+            if not filepath.startswith('/'):
+                full_path = os.path.join(PROJECT_ROOT, filepath)
+            else:
+                full_path = filepath
+                
             code_block = parts[i+1]
             
             # Strip enclosing markdown code blocks robustly
             code_lines = code_block.strip().split('\n')
-            if code_lines[0].startswith('```'):
+            if len(code_lines) > 0 and code_lines[0].startswith('```'):
                 code_lines = code_lines[1:]
             
             # Find the closing ``` that belongs to the outer block
-            # (It's usually the last ``` before another [CMD] or end)
             end_idx = len(code_lines)
             for j in range(len(code_lines)-1, -1, -1):
                 if code_lines[j].strip() == '```':
@@ -41,13 +48,13 @@ def execute(payload_file):
             
             code = '\n'.join(code_lines[:end_idx])
 
-            dir_path = os.path.dirname(filepath)
+            dir_path = os.path.dirname(full_path)
             if dir_path and not os.path.exists(dir_path):
                 os.makedirs(dir_path, exist_ok=True)
                 
-            with open(filepath, 'w') as f:
+            with open(full_path, 'w') as f:
                 f.write(code.strip() + '\n')
-            print(f"  -> Created/Updated: {filepath}")
+            print(f"  -> Created/Updated: {full_path}")
 
     # Extract [CMD] blocks
     cmd_parts = re.split(r'\[CMD\]', content)
@@ -55,7 +62,7 @@ def execute(payload_file):
         for i in range(1, len(cmd_parts)):
             cmd_block = cmd_parts[i]
             cmd_lines = cmd_block.strip().split('\n')
-            if cmd_lines[0].startswith('```'):
+            if len(cmd_lines) > 0 and cmd_lines[0].startswith('```'):
                 cmd_lines = cmd_lines[1:]
             
             end_idx = len(cmd_lines)
@@ -65,9 +72,13 @@ def execute(payload_file):
                     break
             
             cmd_str = '\n'.join(cmd_lines[:end_idx]).strip()
-            print(f"  -> Executing Shell: {cmd_str}")
+            
+            # Fix common model errors like 'git add.'
+            cmd_str = cmd_str.replace('git add.', 'git add .')
+            
+            print(f"  -> Executing Shell (Root): {cmd_str}")
             try:
-                subprocess.run(cmd_str, shell=True, check=False)
+                subprocess.run(cmd_str, shell=True, check=False, cwd=PROJECT_ROOT)
             except Exception as e:
                 print(f"  -> [!] Command failed: {e}")
 

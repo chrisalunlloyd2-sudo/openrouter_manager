@@ -7,62 +7,86 @@ import sqlite3
 import re
 
 # ==============================================================================
-# RECURSIVE DANUBE DIRECTOR (NODE 1)
-# Implements Master Loop, Context Hashing, and Steering Integration.
+# RECURSIVE DANUBE DIRECTOR (NODE 1) - SCHEMA-AWARE CONTEXT
+# Injects enterprise documentation schemas from SQLite into every prompt.
 # ==============================================================================
 
 DB_PATH = "/data/data/com.termux/files/home/openrouter_manager/pedagogy_cognitive.db"
+PROJECT_ROOT = "/data/data/com.termux/files/home/openrouter_manager"
 
-def hash_context(text):
-    """Markov-inspired context hashing to manage long-term state."""
-    return hashlib.sha256(text.encode()).hexdigest()[:16]
-
-def save_context_summary(h, summary):
+def fetch_master_schemas():
+    """Retrieves the Pro documentation templates from the sub-database."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("INSERT OR REPLACE INTO context_history (context_hash, summary) VALUES (?, ?)", (h, summary))
-    conn.commit()
+    cursor.execute("SELECT ascii_topology_template, windows_instructions, android_instructions FROM enterprise_schemas WHERE schema_name='standard_project'")
+    row = cursor.fetchone()
     conn.close()
+    if row:
+        return f"\n=== MASTER DOCUMENTATION SCHEMA ===\n[ASCII TREE TEMPLATE]\n{row[0]}\n[WINDOWS SETUP]\n{row[1]}\n[ANDROID SETUP]\n{row[2]}\n"
+    return ""
 
-def run_cognitive_layer(prompt, context=""):
-    """Routes the prompt to OpenRouter with recursive context injection."""
-    full_prompt = f"CONTEXT SNAPSHOT: {context}\n\nUSER PROMPT: {prompt}"
+def load_persistent_context():
+    """Loads mandates, training logs, and schemas to inject into every prompt."""
+    context = "=== PROJECT MANDATES ===\n"
+    training_log = os.path.join(PROJECT_ROOT, "docs/GENESIS_TRAINING.md")
+    if os.path.exists(training_log):
+        with open(training_log, 'r') as f:
+            context += f.read() + "\n"
+    
+    # Inject Master Schemas from DB
+    context += fetch_master_schemas()
+    
+    sops_dir = os.path.join(PROJECT_ROOT, "sops")
+    if os.path.exists(sops_dir):
+        for file in os.listdir(sops_dir):
+            if file.endswith(".md"):
+                with open(os.path.join(sops_dir, file), 'r') as f:
+                    context += f"--- SOP: {file} ---\n{f.read()}\n"
+    return context
+
+def run_cognitive_layer(prompt, history_context=""):
+    """Routes the prompt with auto-loaded persistent context and schemas."""
+    persistent_context = load_persistent_context()
+    full_prompt = f"{persistent_context}\n\n=== CURRENT HISTORY ===\n{history_context}\n\nUSER PROMPT: {prompt}"
+    
     cmd = ["/data/data/com.termux/files/usr/bin/aichat", "--role", "openrouter-manager", full_prompt]
     try:
-        res = subprocess.run(cmd, capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL)
-        return res.stdout
+        # Pacing: Duty cycle enforced
+        time.sleep(1) 
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL)
+        return result.stdout
     except subprocess.CalledProcessError as e:
         print(f"[!] OpenRouter API Error: {e.stderr}")
         return ""
 
 def master_loop(initial_prompt):
     print("=====================================================================")
-    print(" RECURSIVE SINGULARITY MASTER LOOP ACTIVE ")
+    print(" RECURSIVE SINGULARITY MASTER LOOP - SCHEMA ENFORCED ")
     print("=====================================================================\n")
     
     current_prompt = initial_prompt
-    context = ""
+    history = ""
     iteration = 1
     
     while True:
         print(f"[Master Loop] Iteration {iteration}: Evaluating Logic Satisfaction...")
         
-        response = run_cognitive_layer(current_prompt, context)
+        response = run_cognitive_layer(current_prompt, history)
         if not response.strip(): break
         
-        # Display AI behavior
         print(f"\n--- [AICHAT RESPONSE] ---\n{response}\n--------------------------\n")
         
         # Execute extraction
         payload_file = ".director_payload.md"
         with open(payload_file, "w") as f:
             f.write(response)
-        subprocess.run(["python3", "/data/data/com.termux/files/home/openrouter_manager/src/danube_executor.py", payload_file])
         
-        # Hash context for Markov memory
-        ctx_hash = hash_context(response)
-        save_context_summary(ctx_hash, f"Iteration {iteration} summary")
-        context = ctx_hash # Update rolling context
+        # Determine Extraction Path
+        executor_script = os.path.join(PROJECT_ROOT, "src/danube_executor.py")
+        subprocess.run(["python3", executor_script, payload_file])
+        
+        # Update rolling history (Markov logic)
+        history = hashlib.sha256(response.encode()).hexdigest()[:16]
         
         # Check for Satisfaction
         if "[STATUS: SATISFIED]" in response or iteration >= 5:
@@ -75,12 +99,11 @@ def master_loop(initial_prompt):
             current_prompt = f"Proceeding with Next Step: {next_step_match.group(1)}"
             iteration += 1
         else:
-            print("[Master Loop] No explicit next step found. Defaulting to satisfied.")
             break
 
     # Final GitHub Sync
     print("[Danube Communicator] Pushing Final Recursive State to GitHub...")
-    os.system("python3 /data/data/com.termux/files/home/initialize_enterprise_project.py > /dev/null 2>&1")
+    os.system(f"python3 {os.path.join(PROJECT_ROOT, '../initialize_enterprise_project.py')} > /dev/null 2>&1")
     print("[+] Master Loop Cycle Complete.\n")
 
 if __name__ == "__main__":
