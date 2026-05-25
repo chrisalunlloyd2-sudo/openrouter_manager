@@ -5,54 +5,29 @@ import time
 import hashlib
 import sqlite3
 import re
+from monolith_traverser import record_state, get_current_logic
 
 # ==============================================================================
-# RECURSIVE DANUBE DIRECTOR (NODE 1) - SCHEMA-AWARE CONTEXT
-# Injects enterprise documentation schemas from SQLite into every prompt.
+# RECURSIVE DANUBE DIRECTOR (NODE 1) - v10.1 MASTER ENGINE
+# Implements Double Consent, Monolith Traversal, and Recursive Evolution.
 # ==============================================================================
 
-DB_PATH = "/data/data/com.termux/files/home/openrouter_manager/pedagogy_cognitive.db"
 PROJECT_ROOT = "/data/data/com.termux/files/home/openrouter_manager"
 
-def fetch_master_schemas():
-    """Retrieves the Pro documentation templates from the sub-database."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT ascii_topology_template, windows_instructions, android_instructions FROM enterprise_schemas WHERE schema_name='standard_project'")
-    row = cursor.fetchone()
-    conn.close()
-    if row:
-        return f"\n=== MASTER DOCUMENTATION SCHEMA ===\n[ASCII TREE TEMPLATE]\n{row[0]}\n[WINDOWS SETUP]\n{row[1]}\n[ANDROID SETUP]\n{row[2]}\n"
-    return ""
+def binomial_consent(task_description):
+    """Enforces Double Consent (Binomial Presentation) for massive tasks."""
+    print(f"\n[⚠️ SYSTEM BIBLE ALERT] Massive Task Detected: {task_description}")
+    print("[1] PROCEED WITH STEP-BY-STEP EVOLUTION")
+    print("[2] ABORT MISSION")
+    choice = input("Select [1/2]: ")
+    return choice == "1"
 
-def load_persistent_context():
-    """Loads mandates, training logs, and schemas to inject into every prompt."""
-    context = "=== PROJECT MANDATES ===\n"
-    training_log = os.path.join(PROJECT_ROOT, "docs/GENESIS_TRAINING.md")
-    if os.path.exists(training_log):
-        with open(training_log, 'r') as f:
-            context += f.read() + "\n"
-    
-    # Inject Master Schemas from DB
-    context += fetch_master_schemas()
-    
-    sops_dir = os.path.join(PROJECT_ROOT, "sops")
-    if os.path.exists(sops_dir):
-        for file in os.listdir(sops_dir):
-            if file.endswith(".md"):
-                with open(os.path.join(sops_dir, file), 'r') as f:
-                    context += f"--- SOP: {file} ---\n{f.read()}\n"
-    return context
-
-def run_cognitive_layer(prompt, history_context=""):
-    """Routes the prompt with auto-loaded persistent context and schemas."""
-    persistent_context = load_persistent_context()
-    full_prompt = f"{persistent_context}\n\n=== CURRENT HISTORY ===\n{history_context}\n\nUSER PROMPT: {prompt}"
-    
+def run_cognitive_layer(prompt, context_hash=""):
+    """Routes the prompt with Markov state injection."""
+    full_prompt = f"MARKOV_STATE_HASH: {context_hash}\n\nUSER PROMPT: {prompt}"
     cmd = ["/data/data/com.termux/files/usr/bin/aichat", "--role", "openrouter-manager", full_prompt]
     try:
-        # Pacing: Duty cycle enforced
-        time.sleep(1) 
+        time.sleep(2) # Duty cycle
         result = subprocess.run(cmd, capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL)
         return result.stdout
     except subprocess.CalledProcessError as e:
@@ -61,50 +36,59 @@ def run_cognitive_layer(prompt, history_context=""):
 
 def master_loop(initial_prompt):
     print("=====================================================================")
-    print(" RECURSIVE SINGULARITY MASTER LOOP - SCHEMA ENFORCED ")
+    print(" 🛠️ FOUNDRY MASTER ENGINE v10.1 ACTIVE (DOUBLE CONSENT) ")
     print("=====================================================================\n")
     
+    # 1. Detection of Mega-Tasks
+    if len(initial_prompt.split()) > 10 or "operating system" in initial_prompt.lower():
+        if not binomial_consent(initial_prompt):
+            print("[Foundry] Task aborted by user.")
+            return
+
     current_prompt = initial_prompt
-    history = ""
     iteration = 1
+    project_name = os.path.basename(os.getcwd())
     
     while True:
-        print(f"[Master Loop] Iteration {iteration}: Evaluating Logic Satisfaction...")
+        # Get logic snapshot from Markov Traverser
+        logic_snapshot = get_current_logic(project_name)
         
-        response = run_cognitive_layer(current_prompt, history)
+        print(f"[Master Engine] Iteration {iteration} | Logic State: {logic_snapshot[:20]}...")
+        
+        response = run_cognitive_layer(current_prompt, logic_snapshot)
         if not response.strip(): break
         
-        print(f"\n--- [AICHAT RESPONSE] ---\n{response}\n--------------------------\n")
+        # Display behavioral markers
+        print(f"\n--- [AICHAT v10.1 RESPONSE] ---\n{response}\n--------------------------\n")
         
-        # Execute extraction
+        # 2. Deterministic Extraction
         payload_file = ".director_payload.md"
         with open(payload_file, "w") as f:
             f.write(response)
         
-        # Determine Extraction Path
         executor_script = os.path.join(PROJECT_ROOT, "src/danube_executor.py")
         subprocess.run(["python3", executor_script, payload_file])
         
-        # Update rolling history (Markov logic)
-        history = hashlib.sha256(response.encode()).hexdigest()[:16]
+        # 3. Record State Transition (Markov Logic)
+        new_state_hash = record_state(project_name, f"Iter_{iteration}", "GENETIC_EVOLUTION", response[:200])
         
         # Check for Satisfaction
         if "[STATUS: SATISFIED]" in response or iteration >= 5:
-            print("[Master Loop] Cognitive Logic Satisfied. Finalizing Cycle.")
+            print("[Master Engine] v10.1 Logic Satisfied. Finalizing.")
             break
         
-        # Determine Next Step
+        # Determine Next Step (Axiomatic Traversal)
         next_step_match = re.search(r'\[NEXT_STEP:\s*(.*?)\]', response)
         if next_step_match:
-            current_prompt = f"Proceeding with Next Step: {next_step_match.group(1)}"
+            current_prompt = f"Proceeding with Axiom: {next_step_match.group(1)}"
             iteration += 1
         else:
             break
 
-    # Final GitHub Sync
-    print("[Danube Communicator] Pushing Final Recursive State to GitHub...")
-    os.system(f"python3 {os.path.join(PROJECT_ROOT, '../initialize_enterprise_project.py')} > /dev/null 2>&1")
-    print("[+] Master Loop Cycle Complete.\n")
+    # 4. Global GitHub Syphon
+    print("[Danube Communicator] Pushing Final Master State to GitHub...")
+    os.system(f"python3 /data/data/com.termux/files/home/initialize_enterprise_project.py > /dev/null 2>&1")
+    print("[+] Foundry Cycle Complete. Project Standardized Globally.\n")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -112,7 +96,7 @@ if __name__ == "__main__":
     else:
         while True:
             try:
-                p = input("recursive_director> ")
+                p = input("v10.1_engine> ")
                 if p.lower() in ['exit', 'quit']: break
                 if p: master_loop(p)
             except (KeyboardInterrupt, EOFError):
