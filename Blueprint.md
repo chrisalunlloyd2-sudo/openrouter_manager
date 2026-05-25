@@ -24,3 +24,83 @@ The system's dataflow is as follows:
 git add docs/Blueprint.md
 git commit -m "Added Blueprint.md with system architecture and dataflow"
 git push origin main
+
+
+# --- AUTOMATIC IQ-300 EXPANSION ---
+# AegisAgent Blueprint
+==========================
+
+## Overview
+------------
+
+The AegisAgent project consists of the following components:
+
+* **Data Ingestion**: responsible for collecting and preprocessing data
+* **Feature Extraction**: responsible for transforming and reducing data
+* **Model Training**: responsible for training machine learning models
+* **Model Deployment**: responsible for deploying trained models
+
+## Data Flow
+-------------
+
+The data flow chart is as follows:
+```
+                                      +---------------+
+                                      |  Input Data   |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      | Data Preprocessing|
+                                      |  (Cleaning, Filtering) |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Feature Extraction  |
+                                      |  (Transformation,    |
+                                      |   Reduction)        |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Model Training    |
+                                      |  (Supervised,      |
+                                      |   Unsupervised)    |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Model Deployment  |
+                                      |  (Inference,       |
+                                      |   Prediction)     |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Output Results   |
+                                      +---------------+
+```
+
+## Component Interactions
+-------------------------
+
+The components interact as follows:
+
+1. **Data Ingestion** -> **Data Preprocessing**: data is collected and preprocessed
+2. **Data Preprocessing** -> **Feature Extraction**: preprocessed data is transformed and reduced
+3. **Feature Extraction** -> **Model Training**: features are used to train machine learning models
+4. **Model Training** -> **Model Deployment**: trained models are deployed
+5. **Model Deployment** -> **Output Results**: deployed models generate output results
+```
+
+[CMD]
+```bash
+git add README.md Blueprint.md
+git commit -m "Standardized to v10.2 System Bible spec"
+git push origin master

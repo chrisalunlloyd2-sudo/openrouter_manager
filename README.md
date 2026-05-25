@@ -57,3 +57,79 @@ The code will be refactored until it meets the "Scary Smart" standard, which inc
 ```bash
 git add.
 git commit -m "Generated markdown previews for architecture in README.md"
+
+
+# --- AUTOMATIC IQ-300 EXPANSION ---
+# AegisAgent Repository
+====================================
+
+## Introduction
+---------------
+
+The AegisAgent repository is a cutting-edge project that leverages advanced technologies to provide a robust and scalable solution. This README serves as a comprehensive guide to the project, outlining its architecture, components, and usage.
+
+## ASCII Data Flow Chart
+-------------------------
+
+```
+                                      +---------------+
+                                      |  Input Data   |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      | Data Preprocessing|
+                                      |  (Cleaning, Filtering) |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Feature Extraction  |
+                                      |  (Transformation,    |
+                                      |   Reduction)        |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Model Training    |
+                                      |  (Supervised,      |
+                                      |   Unsupervised)    |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Model Deployment  |
+                                      |  (Inference,       |
+                                      |   Prediction)     |
+                                      +---------------+
+                                             |
+                                             |
+                                             v
+                                      +---------------+
+                                      |  Output Results   |
+                                      +---------------+
+```
+
+## Badges
+---------
+
+[![Build Status](https://img.shields.io/travis/AegisAgent/master.svg)](https://travis-ci.org/AegisAgent/master)
+[![Code Coverage](https://img.shields.io/codecov/c/github/AegisAgent/master.svg)](https://codecov.io/github/AegisAgent/master)
+
+## Getting Started
+-------------------
+
+To get started with the AegisAgent project, please follow these steps:
+
+1. Clone the repository: `git clone https://github.com/AegisAgent/AegisAgent.git`
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run the application: `python app.py`
+
+## Documentation
+-----------------
+
+For more information, please refer to the [Blueprint](Blueprint.md) and [CHANGELOG](CHANGELOG.md) documents.
