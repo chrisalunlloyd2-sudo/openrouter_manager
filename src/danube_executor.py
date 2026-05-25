@@ -4,8 +4,8 @@ import re
 import subprocess
 
 # ==============================================================================
-# DANUBE EXECUTOR (NODE 2) - v10.4 ULTRA PATH RESILIENCE
-# Handles ~, absolute paths, and redundant project naming in aichat outputs.
+# DANUBE EXECUTOR (NODE 2) - v10.5 HEURISTIC REFINEMENT
+# Deterministic Headless Extraction Engine with Smarter Command Filtering.
 # ==============================================================================
 
 def execute(payload_file):
@@ -26,15 +26,13 @@ def execute(payload_file):
         for i in range(1, len(parts), 2):
             filepath = parts[i].strip()
             
-            # 1. Expand ~ and relative markers
+            # Expand ~ and relative markers
             filepath = filepath.replace('~', '/data/data/com.termux/files/home')
             
-            # 2. If it's a redundant leading project name (e.g. openrouter_manager/src/...)
-            # but we are ALREADY in that project root, strip the redundancy.
+            # Strip lead project name if redundant
             if filepath.startswith(f"{project_name}/"):
                 filepath = filepath[len(project_name)+1:]
             
-            # 3. Resolve the path relative to project_root if it's not already absolute
             if not filepath.startswith('/'):
                 full_path = os.path.abspath(os.path.join(project_root, filepath))
             else:
@@ -65,7 +63,7 @@ def execute(payload_file):
                             old_code = f.read()
                         if new_code not in old_code:
                             with open(full_path, 'a') as f:
-                                f.write(f"\n\n# --- FOUNDRY v10.4 EVOLUTION ---\n{new_code}\n")
+                                f.write(f"\n\n# --- FOUNDRY v10.5 EVOLUTION ---\n{new_code}\n")
                             print(f"  -> Expanded: {full_path}")
                         else:
                             print(f"  -> Skipping duplication: {full_path}")
@@ -93,9 +91,12 @@ def execute(payload_file):
                         end_idx = j
                         break
                 cmd_str = '\n'.join(cmd_lines[:end_idx]).strip()
-                if any(x in cmd_str for x in ["rm ", "git rm"]) and "mkdir" not in cmd_str:
-                    print(f"  -> [!] BLOCKED DELETION: {cmd_str}")
+                
+                # IMPROVED BLOCKING: Use regex word boundaries (\b) to avoid matching inside "swarm"
+                if re.search(r'\brm\b|\bgit\s+rm\b|\bmv\b', cmd_str) and "mkdir" not in cmd_str:
+                    print(f"  -> [!] BLOCKED DELETION/MOVE ATTEMPT: {cmd_str}")
                     continue
+                
                 print(f"  -> Executing Shell: {cmd_str}")
                 subprocess.run(cmd_str, shell=True, check=False, cwd=project_root)
 
