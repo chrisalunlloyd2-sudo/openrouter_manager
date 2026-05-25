@@ -43,6 +43,14 @@ section {
 }
 
 h1 {
-    color: #333;
-    margin-top: 0;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    clear: both;
 }
