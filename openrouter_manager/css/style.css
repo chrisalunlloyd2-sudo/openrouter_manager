@@ -1,0 +1,131 @@
+/* Cat-Dark Aesthetic */
+
+/* Global Styles */
+:root {
+  --primary-color: #212121; /* Obsidian */
+  --secondary-color: #FFC107; /* Amber */
+  --background-color: #1a1d23;
+  --text-color: #ffffff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Header Styles */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 1em;
+  text-align: center;
+}
+
+/* Navigation Styles */
+nav {
+  background-color: var(--primary-color);
+  padding: 0.5em;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+/* Main Content Styles */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2em;
+}
+
+/* Footer Styles */
+footer {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 1em;
+  text-align: center;
+  clear: both;
+}
+
+/* Button Styles */
+button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary-color);
+}
+
+/* Input Styles */
+input {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+/* Label Styles */
+label {
+  color: var(--text-color);
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  
+  .container {
+    padding: 1em;
+  }
+}
+```
+
+[CMD]
+```bash
+# Create a new directory for CSS files if it doesn't exist
+mkdir -p openrouter_manager/css
+
+# Move the style.css file to the css directory
+mv openrouter_manager/style.css openrouter_manager/css/
+
+# Update the GitHub repository with the new style.css file
+git add openrouter_manager/css/style.css
+git commit -m "Added unified style.css with Cat-Dark aesthetic"
+git push origin main
