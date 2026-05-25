@@ -1,22 +1,20 @@
-# AegisAgent Changelog
-## Version History
+# Changelog
+=========
 
-## v10.1
-* Implemented double consent feature
-* Developed system bible
-* Updated documentation and README.md
+## V10.1
+### Added
+* Initial release of the Aegis_Agents project.
+* Implemented double consent mechanism.
+* Developed system bible and comprehensive documentation.
 
-## v10.0
-* Initial release of the AegisAgent project
-* Implemented main engine and utils module
-* Established core logic and dataflow
-```
+### Changed
+* Improved system performance and security.
+
+### Removed
+* None
 
 [CMD]
 ```bash
-git add README.md
-git add docs/Blueprint.md
-git add docs/ROADMAP.md
-git add CHANGELOG.md
-git commit -m "Updated repository with 500x Pro Schema and initialized files"
+git add README.md docs/Blueprint.md docs/ROADMAP.md CHANGELOG.md
+git commit -m "Updated repository with 500x Pro Schema and double consent mechanism"
 git push origin main

@@ -1,54 +1,31 @@
 # Autonomous Systems Engineering Project Foundry
-## AegisAgent v10.1 Master Engine with System Bible and Double Consent
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://img.shields.io/travis/com/chrisalunlloyd2-sudo/AegisAgent.svg)](https://travis-ci.com/chrisalunlloyd2-sudo/AegisAgent)
-[![Version](https://img.shields.io/badge/Version-10.1-red.svg)](https://github.com/chrisalunlloyd2-sudo/AegisAgent/releases)
+=====================================================
 
 ## Introduction
-The AegisAgent project is a comprehensive Autonomous Systems Engineering Project Foundry, designed to provide a robust and scalable framework for developing autonomous systems. This repository contains the v10.1 Master Engine, which includes the System Bible and Double Consent features.
+The Aegis_Agents project is a comprehensive framework for autonomous systems engineering, providing a robust and scalable architecture for developing and deploying complex systems. This repository serves as the master engine for the project, incorporating a system bible and double consent mechanism to ensure secure and reliable operation.
 
-## ASCII Tree
+### Visual Badges
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://img.shields.io/travis/com/chrisalunlloyd2-sudo/Aegis_Agents.svg)](https://travis-ci.com/chrisalunlloyd2-sudo/Aegis_Agents)
+[![Version](https://img.shields.io/badge/Version-10.1-red.svg)](https://github.com/chrisalunlloyd2-sudo/Aegis_Agents/releases)
+
+### ASCII Tree
 ├── .git/
 ├── README.md
 ├── docs/
 │   ├── Blueprint.md
 │   ├── ROADMAP.md
-│   └── SystemBible.md
+│   └── System_Bible.md
 ├── src/
 │   ├── main.py
-│   ├── double_consent.py
-│   └── utils.py
+│   └── double_consent.py
 ├── tests/
 │   ├── test_main.py
-│   ├── test_double_consent.py
-│   └── test_utils.py
+│   └── test_double_consent.py
 └── CHANGELOG.md
 
-## Getting Started
-### Windows Setup
-1. Install Python 3.10+ from python.org
-2. Open PowerShell
-3. Run: `pip install -r requirements.txt`
-4. Execute: `python src/main.py`
-
-### Android Setup (Termux)
-1. Install Termux
-2. `pkg install python git`
-3. `pip install -r requirements.txt`
-4. `python src/main.py`
-
-## Axiomatic Breakdown
-* **UI:** The AegisAgent project will interact with the user through a command-line interface.
-* **DB:** The AegisAgent project will utilize a database to store and retrieve system data.
-* **State:** The AegisAgent project will maintain its own state to ensure continuity and consistency.
-* **API:** The AegisAgent project will use APIs to communicate with other components and services.
-
-## Double Consent
-The AegisAgent project incorporates Double Consent binomial logic, which ensures that all interactions are validated and authorized through a two-step process.
-
-## System Bible
-The System Bible is a comprehensive documentation of the AegisAgent project's architecture, components, and functionality.
-
-## Roadmap
-The ROADMAP.md file outlines the future performatives and development plans for the AegisAgent project.
+### Axiomatic Breakdown
+* **UI:** The Aegis_Agents project will interact with users through a comprehensive UI, providing real-time feedback and system monitoring.
+* **DB:** The project will utilize a robust database to store and manage system data, ensuring data integrity and security.
+* **State:** The project will maintain a consistent system state, ensuring reliable operation and minimizing downtime.
+* **API:** The project will provide a well-defined API for interaction with external systems, enabling seamless integration and scalability.
