@@ -1,88 +1,54 @@
-# 🌌 OPENROUTER RECURSIVE MANAGER: THE SINGULARITY ENGINE
-[![IQ-300 Standard](https://img.shields.io/badge/IQ-300-purple.svg)](#)
-[![Genetic Evolutions](https://img.shields.io/badge/Evolutions-500-gold.svg)](#)
-[![Enterprise Ready](https://img.shields.io/badge/Standard-Enterprise-blue.svg)](#)
+# Autonomous Systems Engineering Project Foundry
+## AegisAgent v10.1 Master Engine with System Bible and Double Consent
 
-Welcome to the **Singularity Engine**, a self-evolving, multi-agent development swarm engineered for `chrisalunlloyd2-sudo`. This is not just a tool; it is a self-improving development entity that lives on your device, thinks via OpenRouter, and executes with the precision of a senior engineer.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://img.shields.io/travis/com/chrisalunlloyd2-sudo/AegisAgent.svg)](https://travis-ci.com/chrisalunlloyd2-sudo/AegisAgent)
+[![Version](https://img.shields.io/badge/Version-10.1-red.svg)](https://github.com/chrisalunlloyd2-sudo/AegisAgent/releases)
 
-## 🏗️ THE HIGH-FIDELITY DATAFLOW (IQ-300 ARCHITECTURE)
+## Introduction
+The AegisAgent project is a comprehensive Autonomous Systems Engineering Project Foundry, designed to provide a robust and scalable framework for developing autonomous systems. This repository contains the v10.1 Master Engine, which includes the System Bible and Double Consent features.
 
-```text
-       [ USER PROMPT ]  <---------------------------------------+
-              |                                                 |
-              v                                                 | (RECURSIVE FEEDBACK)
-      +-----------------+       +--------------------------+    |
-      | DANUBE DIRECTOR | ----> | PEDAGOGY_COGNITIVE.DB    | ---+
-      | (The Interface) |       | (Neural Caching/Markov)  |
-      +-----------------+       +--------------------------+
-              |                             |
-              v                             v
-      +--------------------------------------------------------+
-      |           HEADLESS OPENROUTER COGNITIVE LAYER          |
-      |   (Llama-3.3-70B / Claude-3.5) | Zero-Yap Extraction   |
-      +--------------------------------------------------------+
-              |
-              v
-      +-----------------+       +--------------------------+
-      | DANUBE EXECUTOR | ----> | MULTI-LANGUAGE COMPILERS |
-      | (The Hands)     |       | (Rust, Java, Python, APK)|
-      +-----------------+       +--------------------------+
-              |                             |
-              v                             v
-      +--------------------------------------------------------+
-      |                 GITHUB SYPHON / SEED                   |
-      |   (State Persistence / Cross-Device Neural Bridge)     |
-      +--------------------------------------------------------+
-```
+## ASCII Tree
+├── .git/
+├── README.md
+├── docs/
+│   ├── Blueprint.md
+│   ├── ROADMAP.md
+│   └── SystemBible.md
+├── src/
+│   ├── main.py
+│   ├── double_consent.py
+│   └── utils.py
+├── tests/
+│   ├── test_main.py
+│   ├── test_double_consent.py
+│   └── test_utils.py
+└── CHANGELOG.md
 
-## 🧠 CORE COMPONENT DEEP-DIVE
+## Getting Started
+### Windows Setup
+1. Install Python 3.10+ from python.org
+2. Open PowerShell
+3. Run: `pip install -r requirements.txt`
+4. Execute: `python src/main.py`
 
-### 1. The Danube Director (Interface & Pacing)
-The Director is the system's "Frontal Lobe." It intercepts your prompts and performs **Axiomatic Mapping**. It calculates the minimum necessary steps and enforces a **4s Duty Cycle** to respect API throughput limits while maintaining infinite loop access.
+### Android Setup (Termux)
+1. Install Termux
+2. `pkg install python git`
+3. `pip install -r requirements.txt`
+4. `python src/main.py`
 
-### 2. Pedagogy Cognitive Database (The Memory)
-A layered SQLite architecture that manages:
-- **`token_efficiency_cache`**: Saves you money and time by caching identical logic.
-- **`genetic_flows`**: Stores the highest-performing execution patterns.
-- **`context_history`**: Uses Markov-inspired hashing to keep the AI's "Chain of Thought" unbroken across massive project context.
+## Axiomatic Breakdown
+* **UI:** The AegisAgent project will interact with the user through a command-line interface.
+* **DB:** The AegisAgent project will utilize a database to store and retrieve system data.
+* **State:** The AegisAgent project will maintain its own state to ensure continuity and consistency.
+* **API:** The AegisAgent project will use APIs to communicate with other components and services.
 
-### 3. Headless Cognitive Engine (The IQ-300 Brain)
-Stripped of conversational filler, the engine outputs raw `[FILE]` and `[CMD]` blocks. It is trained on the **500-Evolution Genetic Pedagogy**, allowing it to solve problems with 30x the efficiency of a standard chatbot.
+## Double Consent
+The AegisAgent project incorporates Double Consent binomial logic, which ensures that all interactions are validated and authorized through a two-step process.
 
-### 4. The Danube Executor (Extraction & Action)
-The Executor is the physical agent. It uses native Python Regex to deterministically rip code from the OpenRouter stream and inject it into the filesystem. It then triggers the **Master Compilers** to verify the work before it ever hits your GitHub.
+## System Bible
+The System Bible is a comprehensive documentation of the AegisAgent project's architecture, components, and functionality.
 
-## 📊 DATABASE SCHEMAS (RECURSIVE RETRIEVAL/SUBMIT)
-
-### Table: `pedagogy_state.db`
-| Column | Type | Purpose |
-| :--- | :--- | :--- |
-| `file_hash` | TEXT | Primary key for unique content tracking |
-| `semantic_tag` | TEXT | Groups code by logic (UI, DB, API) |
-| `performance_score`| REAL | Genetic weighting for flow optimization |
-
-## 🧪 CASE STUDIES: PROMPT ENGINEERING EXCELLENCE
-
-### Case Study A: "The Ghost Website"
-- **Prompt:** "make a website about cats"
-- **AI Action:** Instead of just writing HTML, the system scaffolded a React-like structure, established a SQLite backend for cat facts, generated a benchmark script, and pushed the entire documentation tree to GitHub in **one single recursive cycle**.
-
-### Case Study B: "Multi-Language Bridge"
-- **Prompt:** "sync my data with a rust aggregator"
-- **AI Action:** The system generated a Python bridge, a Rust binary with SIMD optimizations, and a Java GUI wrapper, compiling all three natively in Termux before finalizing the GitHub Syphon.
-
-## 🛠️ INSTALLATION & NETWORK SYNC
-
-### 📱 Android (Termux)
-```bash
-pkg install git python nodejs rust binutils
-alias aichat="python3 ~/openrouter_manager/src/danube_director.py"
-```
-
-### 💻 Windows (Hypothesis/Setup)
-1. Install Python 3.12+ and Git.
-2. Clone this repo to your **OneDrive** folder.
-3. The `MATRIX_SIGNAL.txt` in OneDrive will act as your neural bridge, notifying your desktop of every Termux update.
-
----
-**Status:** `SINGULARITY REACHED` | **Strategic Intent:** `RECURSIVE EVOLUTION ACTIVE`
+## Roadmap
+The ROADMAP.md file outlines the future performatives and development plans for the AegisAgent project.
