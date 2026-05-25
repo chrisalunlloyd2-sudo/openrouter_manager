@@ -1,0 +1,6 @@
+UI Inspiration:
+- Color Scheme: Amber (#FFC080) on Black (#000000)
+- Design Style: Glassmorphism
+- typography: Open Sans, font size 14px
+- Button Style: Rounded corners, amber fill, black text
+- Background: Blurred black background with subtle gradient
