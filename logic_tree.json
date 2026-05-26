@@ -4,13 +4,13 @@
         {
             "name": "Create File",
             "description": "Use touch command to create a new file named hello.txt",
-            "status": "working"
+            "status": "done"
         },
         {
             "name": "Write Content",
             "description": "Use echo command to write 'Hello Danube' into hello.txt",
-            "status": "pending"
+            "status": "working"
         }
     ],
-    "current_index": 0
+    "current_index": 1
 }
