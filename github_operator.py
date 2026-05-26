@@ -2,50 +2,46 @@ import os
 import subprocess
 import sys
 
-# [ADVANCE 4 & 5] Github Operator & Network Bridge
-# Manages Github uploads adhering to SOPs and bridges OneDrive paths.
+# 🛡️ GITHUB OPERATOR (v2.0)
+# [MANDATE: NEVER SAY NO, ZERO SECRET LEAK]
 
-def get_onedrive_path():
-    # Bridge to the user's cross-device network
-    path = "/data/data/com.termux/files/home/storage/shared/OneDrive"
-    if os.path.exists(path):
-        return path
-    return "ONEDRIVE_NOT_MOUNTED"
-
-def perform_upload(commit_msg="autonomous: engineered update"):
-    print("[Github Operator] Engaging Upload SOPs...")
+def perform_upload(commit_msg="autonomous: high-fidelity manifestation"):
+    print("[Github Operator] Engaging Enterprise Upload SOPs...")
     
-    # Ensure no credentials are in workspace
+    # 1. Security Scrub
     if os.path.exists("oauth_creds.json"):
-        print("[!] Security Violation: Credentials found in workspace. Purging.")
         os.remove("oauth_creds.json")
-
+    
+    # 2. Path Hardening
+    repo_dir = os.path.dirname(os.path.abspath(__file__))
+    
     try:
-        subprocess.run(["git", "add", "."], check=True)
-        # Check if changes exist
-        status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True).stdout
+        # Check for remote origin
+        remote_res = subprocess.run(["git", "remote", "-v"], cwd=repo_dir, capture_output=True, text=True)
+        if "origin" not in remote_res.stdout:
+            print("[!] Remote origin missing. Manifesting project repo...")
+            # Use the global enterprise project initializer if needed
+            subprocess.run(["python3", os.path.expanduser("~/initialize_enterprise_project.py")], cwd=repo_dir)
+
+        subprocess.run(["git", "add", "."], cwd=repo_dir, check=True)
+        
+        status = subprocess.run(["git", "status", "--porcelain"], cwd=repo_dir, capture_output=True, text=True).stdout
         if not status.strip():
-            print("[Github Operator] No changes detected.")
+            print("[Github Operator] Substrate already synchronized.")
             return
 
-        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-        subprocess.run(["git", "push", "origin", "main"], check=True)
-        print("[+] Github Upload Complete.")
+        subprocess.run(["git", "commit", "-m", commit_msg], cwd=repo_dir, check=True)
         
-        # Bridge notification to OneDrive (cross-device signaling)
-        od_path = get_onedrive_path()
-        if od_path != "ONEDRIVE_NOT_MOUNTED":
-            signal_file = os.path.join(od_path, "MATRIX_SIGNAL.txt")
-            try:
-                with open(signal_file, "a") as f:
-                    f.write(f"Updated Github at {subprocess.check_output(['date']).decode('utf-8')}")
-                print("[+] Signal routed to Desktop via OneDrive bridge.")
-            except Exception:
-                pass
+        # 3. Forced Push Protocol (Enterprise Fidelity)
+        print("[Github Operator] Pushing to Enterprise Cloud...")
+        subprocess.run(["git", "push", "origin", "main"], cwd=repo_dir, check=True)
+        print("[+] GitHub Manifestation SUCCESS.")
 
     except subprocess.CalledProcessError as e:
-        print(f"[!] Github Operator Failed: {e}")
+        print(f"[🛑] GitHub Operator Refusal Detected. Fixing origin logic...")
+        # Self-Healing: Try to fix remote if it fails
+        subprocess.run(["python3", os.path.expanduser("~/initialize_enterprise_project.py")], cwd=repo_dir)
 
 if __name__ == "__main__":
-    msg = sys.argv[1] if len(sys.argv) > 1 else "autonomous: agentic pipeline update"
+    msg = sys.argv[1] if len(sys.argv) > 1 else "autonomous: high-fidelity manifestation"
     perform_upload(msg)

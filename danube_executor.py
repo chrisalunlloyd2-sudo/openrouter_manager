@@ -17,22 +17,27 @@ def execute(payload_file):
         print("[!] Danube Executor Error: Payload not found.")
         return
 
-    # Extract [FILE: path] blocks. We use split to handle nested markdown gracefully.
+    # Extract [FILE: path] blocks.
     parts = re.split(r'\[FILE:\s*(.+?)\]', content)
     if len(parts) > 1:
-        # parts[0] is text before first [FILE]. 
-        # Then it pairs: parts[1] is filename, parts[2] is content.
         for i in range(1, len(parts), 2):
             filepath = parts[i].strip()
             code_block = parts[i+1]
             
+            # --- CRITICAL FIX: Stop at [CMD] or [SUMMARY] or [FILE] ---
+            code_block = re.split(r'\[CMD.*?\]|\[SUMMARY\]', code_block)[0]
+            
+            # --- PATH NORMALIZATION (GEN 8) ---
+            if 'downloads/' in filepath.lower():
+                filepath = filepath.replace('Downloads/', 'downloads/')
+                filepath = os.path.expanduser('~/downloads/') + os.path.basename(filepath)
+            
             # Strip enclosing markdown code blocks robustly
             code_lines = code_block.strip().split('\n')
-            if code_lines[0].startswith('```'):
+            if code_lines and code_lines[0].startswith('```'):
                 code_lines = code_lines[1:]
             
             # Find the closing ``` that belongs to the outer block
-            # (It's usually the last ``` before another [CMD] or end)
             end_idx = len(code_lines)
             for j in range(len(code_lines)-1, -1, -1):
                 if code_lines[j].strip() == '```':
@@ -63,11 +68,15 @@ def execute(payload_file):
                 if cmd_lines[j].strip() == '```':
                     end_idx = j
                     break
-            
             cmd_str = '\n'.join(cmd_lines[:end_idx]).strip()
-            print(f"  -> Executing Shell: {cmd_str}")
+            print(f"  -> Executing Shell (Scientific): {cmd_str}")
             try:
-                subprocess.run(cmd_str, shell=True, check=False)
+                # Use the Scientific Executor for E2E validation
+                executor_path = os.path.expanduser("~/SCIENTIFIC_EXECUTOR.py")
+                if os.path.exists(executor_path):
+                    subprocess.run(["python3", executor_path, cmd_str], check=False)
+                else:
+                    subprocess.run(cmd_str, shell=True, check=False)
             except Exception as e:
                 print(f"  -> [!] Command failed: {e}")
 
