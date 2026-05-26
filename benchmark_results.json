@@ -1,0 +1,7 @@
+[
+    {
+        "model": "alpha-triton-grpo-1.7b.Q4_K_M.gguf",
+        "duration": 14.78989315032959,
+        "output": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/"
+    }
+]

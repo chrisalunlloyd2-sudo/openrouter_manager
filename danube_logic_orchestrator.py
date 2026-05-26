@@ -6,17 +6,17 @@ import time
 import re
 
 # ==============================================================================
-# DANUBE LOGIC ORCHESTRATOR (v3.0)
-# [MANDATE: LOGIC TREE, LAYERED AGENTS, OPENROUTER ONLY, GITHUB SYNC]
+# DANUBE LOGIC ORCHESTRATOR (v4.0)
+# [MANDATE: LOGIC TREE, SID, BENCHMARK ORCHESTRATION, SLOPPY INPUT HANDLING]
 # ==============================================================================
 
 class DanubeOrchestrator:
     def __init__(self, goal):
-        self.goal = goal
+        self.raw_goal = goal
+        self.scientific_intent = ""
         self.tree_file = "logic_tree.json"
-        self.tree = {"goal": goal, "tasks": [], "current_index": 0}
+        self.tree = {"goal": goal, "scientific_intent": "", "tasks": [], "current_index": 0}
         self.role = "openrouter-manager-v2"
-        self.aichat_bin = "/data/data/com.termux/files/home/bin/aichat" # The real one is at /usr/bin/aichat but we need to bypass the script
         self.real_aichat = "/data/data/com.termux/files/usr/bin/aichat"
 
     def run_ai(self, prompt, system_instruction=""):
@@ -30,20 +30,36 @@ class DanubeOrchestrator:
             print(f"[!] OpenRouter API Error: {e.stderr}")
             return ""
 
-    def plan(self):
-        """Phase 1: Generate Logic Tree."""
-        print(f"[Planner] Generating Logic Tree for: {self.goal}")
+    def distill_intent(self):
+        """Phase 0: Scientific Intent Distillation (SID).
+        Handles sloppy verbage and extracts strict technical performatives.
+        """
+        print(f"[SID] Distilling scientific intent from: '{self.raw_goal}'")
         instruction = (
-            "You are a Project Architect. Break the goal into a series of sequential tasks. "
+            "You are a Scientific Intent Distiller. The user might provide 'sloppy' input with typos or informal language. "
+            "Your job is to ignore the mess and extract the STRICT TECHNICAL INTENT. "
+            "Output format: [INTENT: ...][REQUIREMENTS: list...][CONSTRAINTS: list...]. "
+            "ZERO PROSE."
+        )
+        response = self.run_ai(self.raw_goal, instruction)
+        self.scientific_intent = response.strip()
+        self.tree["scientific_intent"] = self.scientific_intent
+        print(f"[SID] Manifested Intent:\n{self.scientific_intent}\n")
+
+    def plan(self):
+        """Phase 1: Generate Logic Tree based on SID."""
+        if not self.scientific_intent:
+            self.distill_intent()
+            
+        print(f"[Planner] Generating Logic Tree for distilled intent...")
+        instruction = (
+            "You are a Project Architect. Break the Scientific Intent into sequential tasks. "
             "Output MUST be a valid JSON array of objects with keys: 'name', 'description'. "
-            "Example: [{\"name\": \"Task 1\", \"description\": \"Do X\"}] "
             "ZERO PROSE. ONLY JSON."
         )
-        response = self.run_ai(self.goal, instruction)
+        response = self.run_ai(self.scientific_intent, instruction)
         
-        # Extract JSON from response
         try:
-            # Find the first [ and last ]
             start = response.find('[')
             end = response.rfind(']') + 1
             if start != -1 and end != 0:
@@ -52,12 +68,13 @@ class DanubeOrchestrator:
                 self.tree["tasks"] = tasks
                 for task in self.tree["tasks"]:
                     task["status"] = "pending"
+                    task["attempts"] = 0
                 self.save_tree()
                 print("[Planner] Logic Tree Manifested.")
             else:
-                print(f"[!] Failed to parse JSON from AI response: {response}")
+                print(f"[!] Failed to parse JSON: {response}")
         except Exception as e:
-            print(f"[!] Error in Planning Phase: {e}")
+            print(f"[!] Planning Error: {e}")
 
     def save_tree(self):
         with open(self.tree_file, "w") as f:
@@ -78,25 +95,21 @@ class DanubeOrchestrator:
 
     def execute_task(self, task):
         """Phase 2: Implementation (Director + Executor)."""
-        print(f"[Director] Attacking Task: {task['name']}")
+        print(f"[Director] Attacking Task: {task['name']} (Attempt {task['attempts']+1})")
+        # Mirroring Gemini CLI: Research -> Strategy -> Execution
         instruction = (
-            "You are a Deterministic Code Generator. "
+            "Follow the Gemini CLI Benchmark: Research context, devise a Strategy, then Execute. "
             "Generate the code to complete the task. "
             "Format: [FILE: path]...code...[CMD]...shell command...[SUMMARY]...text. "
             "ZERO PROSE."
         )
-        payload = self.run_ai(f"Goal: {self.goal}\nTask: {task['name']}\nDescription: {task['description']}", instruction)
+        payload = self.run_ai(f"Project Intent: {self.scientific_intent}\nTask: {task['name']}\nDescription: {task['description']}", instruction)
         
-        if not payload.strip():
-            print("[!] Empty payload from AI.")
-            return False
+        if not payload.strip(): return False
 
-        # Save payload for executor
         with open(".task_payload.md", "w") as f:
             f.write(payload)
         
-        # Run Executor
-        print("[Executor] Running manifestation layer...")
         subprocess.run(["python3", "danube_executor.py", ".task_payload.md"])
         return True
 
@@ -109,9 +122,8 @@ class DanubeOrchestrator:
             "The script should exit with code 0 on success, and non-zero on failure. "
             "ONLY output the python code. ZERO PROSE."
         )
-        test_code = self.run_ai(f"Goal: {self.goal}\nTask: {task['name']}\nDescription: {task['description']}\nGenerate a test for this.", instruction)
+        test_code = self.run_ai(f"Project Intent: {self.scientific_intent}\nTask: {task['name']}\nDescription: {task['description']}\nGenerate a test for this.", instruction)
         
-        # Clean up code block markers
         test_code = re.sub(r'```python\n|```', '', test_code)
         
         with open("test_task.py", "w") as f:
@@ -144,6 +156,7 @@ class DanubeOrchestrator:
             
             self.display_tree()
             task["status"] = "working"
+            task["attempts"] += 1
             self.save_tree()
             
             success = self.execute_task(task)
@@ -155,15 +168,16 @@ class DanubeOrchestrator:
                     self.tree["current_index"] += 1
                 else:
                     task["status"] = "failed"
-                    print("[!] Retrying task in next iteration...")
-                    # In a real loop, we might ask for a fix here
-                    break 
+                    if task["attempts"] >= 3:
+                        print(f"[!] Task {task['name']} failed after 3 attempts. Stopping.")
+                        break
+                    print(f"[!] Retrying task (Attempt {task['attempts']+1}/3)...")
             else:
                 task["status"] = "failed"
                 break
             
             self.save_tree()
-            time.sleep(2) # Pacing
+            time.sleep(2)
 
         self.display_tree()
         if self.tree["current_index"] == len(self.tree["tasks"]):
