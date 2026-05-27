@@ -5,55 +5,39 @@ import time
 import hashlib
 import sqlite3
 import re
+import json
+import os
+import sys
+import subprocess
+import time
+import hashlib
+import sqlite3
+import re
 from danube_chooser import choose_model
 
 # ==============================================================================
-# RECURSIVE DANUBE DIRECTOR (NODE 1) - v11.1 CONTEXT-EFFICIENT
-# Optimized context loading to prevent token overflow/budget crashes.
+# RECURSIVE DANUBE DIRECTOR (NODE 1) - v11.1 JSON-Action Pipeline
 # ==============================================================================
 
-PROJECT_ROOT = "/data/data/com.termux/files/home/openrouter_manager"
+QUEUE_DIR = os.path.expanduser("~/.matrix_ide/state/action_queue")
+os.makedirs(QUEUE_DIR, exist_ok=True)
 
-def load_persistent_context():
-    """Loads a truncated, efficient context snapshot."""
-    context = "=== PROJECT MANDATES (TRUNCATED) ===\n"
-    
-    # 1. Training Log Snippet
-    training_log = os.path.join(PROJECT_ROOT, "docs/GENESIS_TRAINING.md")
-    if os.path.exists(training_log):
-        with open(training_log, 'r') as f:
-            # Only take the first 1k chars of training log
-            context += f.read()[:1000] + "\n"
-    
-    # 2. SOP Snippet (Avoiding huge TODO.md)
-    sops_dir = os.path.join(PROJECT_ROOT, "sops")
-    if os.path.exists(sops_dir):
-        for file in os.listdir(sops_dir):
-            if file.endswith(".md"):
-                file_path = os.path.join(sops_dir, file)
-                # If it's TODO.md, only take the LAST 1k chars (most recent tasks)
-                if file == "TODO.md":
-                    with open(file_path, 'r') as f:
-                        f.seek(max(0, os.path.getsize(file_path) - 1000))
-                        context += f"--- RECENT SOP: {file} ---\n... {f.read()}\n"
-                else:
-                    with open(file_path, 'r') as f:
-                        context += f"--- SOP: {file} ---\n{f.read()[:500]}\n"
-    return context
+def distill_tasks_to_json(ai_response):
+    """Parses [ACTION: ...] blocks and serializes to JSON steps."""
+    action_blocks = re.findall(r'\[ACTION:\s*(\w+)\s*\]\s*([\s\S]*?)(?=\[ACTION:|$)', ai_response)
+    for i, (performative, payload) in enumerate(action_blocks):
+        step_id = f"{int(time.time())}_{i:03d}"
+        task = {"performative": performative.strip(), "payload": payload.strip()}
+        with open(os.path.join(QUEUE_DIR, f"{step_id}.json"), "w") as f:
+            json.dump(task, f)
+    print(f"[+] Distilled {len(action_blocks)} actions into pipeline.")
 
+# (Existing Danube Logic continued...)
 def run_cognitive_layer(prompt, history_context=""):
     persistent_context = load_persistent_context()
-    full_prompt = f"{persistent_context}\n\n=== HISTORY HASH: {history_context} ===\n\nUSER PROMPT: {prompt}"
-    
-    model = choose_model(prompt)
-    cmd = ["/data/data/com.termux/files/usr/bin/aichat", "--model", model, "--role", "openrouter-manager", full_prompt]
-    try:
-        time.sleep(2) 
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL)
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"[!] OpenRouter API Error: {e.stderr}")
-        return ""
+    full_prompt = f"{persistent_context}\n\n=== HISTORY HASH: {history_context} ===\n\nUSER PROMPT: {prompt}. \nInstruction: Distill your response into [ACTION: PERFORM] steps."
+    # ... remainder of run_cognitive_layer ...
+
 
 def binomial_consent(task):
     print(f"\n[⚠️  SYSTEM BIBLE] Massive Task Detected: {task}")
