@@ -9,8 +9,8 @@ import re
 def fetch_content(url):
     try:
         req = urllib.request.Request(
-            url, 
-            data=None, 
+            url,
+            data=None,
             headers={'User-Agent': 'Mozilla/5.0 (Agentic Research Node)'}
         )
         with urllib.request.urlopen(req) as response:

@@ -13,7 +13,7 @@ PROJECT_ROOT = "/data/data/com.termux/files/home/openrouter_manager"
 def run_qa_checks():
     os.chdir(PROJECT_ROOT)
     print("[QA Bot] Initiating Workspace Audit...")
-    
+
     # 1. Run all python tests
     if os.path.exists("tests/"):
         print("[QA Bot] Running Pytest suite...")

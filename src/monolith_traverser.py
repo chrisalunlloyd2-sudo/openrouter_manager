@@ -32,8 +32,8 @@ def record_state(project, axiom, transition, snapshot):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT OR REPLACE INTO monolith_states 
-        (state_hash, project_name, current_axiom, transition_to, logic_snapshot) 
+        INSERT OR REPLACE INTO monolith_states
+        (state_hash, project_name, current_axiom, transition_to, logic_snapshot)
         VALUES (?, ?, ?, ?, ?)
     ''', (h, project, axiom, transition, snapshot))
     conn.commit()
