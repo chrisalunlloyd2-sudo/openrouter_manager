@@ -50,7 +50,7 @@ class DanubeOrchestrator:
         """Phase 1: Generate Logic Tree based on SID."""
         if not self.scientific_intent:
             self.distill_intent()
-            
+
         print(f"[Planner] Generating Logic Tree for distilled intent...")
         instruction = (
             "You are a Project Architect. Break the Scientific Intent into sequential tasks. "
@@ -58,7 +58,7 @@ class DanubeOrchestrator:
             "ZERO PROSE. ONLY JSON."
         )
         response = self.run_ai(self.scientific_intent, instruction)
-        
+
         try:
             start = response.find('[')
             end = response.rfind(']') + 1
@@ -89,7 +89,7 @@ class DanubeOrchestrator:
             if task["status"] == "done": status_char = "x"
             elif task["status"] == "working": status_char = ">"
             elif task["status"] == "failed": status_char = "!"
-            
+
             print(f"[{status_char}] {i+1}. {task['name']}")
         print("="*40 + "\n")
 
@@ -104,12 +104,12 @@ class DanubeOrchestrator:
             "ZERO PROSE."
         )
         payload = self.run_ai(f"Project Intent: {self.scientific_intent}\nTask: {task['name']}\nDescription: {task['description']}", instruction)
-        
+
         if not payload.strip(): return False
 
         with open(".task_payload.md", "w") as f:
             f.write(payload)
-        
+
         subprocess.run(["python3", "danube_executor.py", ".task_payload.md"])
         return True
 
@@ -123,12 +123,12 @@ class DanubeOrchestrator:
             "ONLY output the python code. ZERO PROSE."
         )
         test_code = self.run_ai(f"Project Intent: {self.scientific_intent}\nTask: {task['name']}\nDescription: {task['description']}\nGenerate a test for this.", instruction)
-        
+
         test_code = re.sub(r'```python\n|```', '', test_code)
-        
+
         with open("test_task.py", "w") as f:
             f.write(test_code.strip())
-        
+
         try:
             result = subprocess.run(["python3", "test_task.py"], capture_output=True, text=True)
             if result.returncode == 0:
@@ -149,16 +149,16 @@ class DanubeOrchestrator:
     def run(self):
         if not self.tree["tasks"]:
             self.plan()
-        
+
         while self.tree["current_index"] < len(self.tree["tasks"]):
             index = self.tree["current_index"]
             task = self.tree["tasks"][index]
-            
+
             self.display_tree()
             task["status"] = "working"
             task["attempts"] += 1
             self.save_tree()
-            
+
             success = self.execute_task(task)
             if success:
                 verified = self.test_task(task)
@@ -175,7 +175,7 @@ class DanubeOrchestrator:
             else:
                 task["status"] = "failed"
                 break
-            
+
             self.save_tree()
             time.sleep(2)
 

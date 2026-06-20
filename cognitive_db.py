@@ -8,7 +8,7 @@ import datetime
 def init_db():
     conn = sqlite3.connect('pedagogy_cognitive.db')
     cursor = conn.cursor()
-    
+
     # Core Identity & Network Topology
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS identity_matrix (
@@ -17,7 +17,7 @@ def init_db():
         updated_at TEXT
     )
     ''')
-    
+
     # Execution Memory (The Learning Layer)
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS execution_memory (
@@ -29,7 +29,7 @@ def init_db():
         timestamp TEXT
     )
     ''')
-    
+
     # Seed Initial Identity Data
     topology = {
         "github_username": "chrisalunlloyd2-sudo",
@@ -38,11 +38,11 @@ def init_db():
         "agentic_network": "danube_orchestrator, aider_injection, openrouter_cognitive",
         "auth_sops": "Environment variables strictly. NEVER hardcode OAuth or Tokens."
     }
-    
+
     for k, v in topology.items():
         cursor.execute('INSERT OR REPLACE INTO identity_matrix (key, value, updated_at) VALUES (?, ?, ?)',
                       (k, v, datetime.datetime.now().isoformat()))
-    
+
     conn.commit()
     conn.close()
     print("[+] Pedagogy DB Initialized: Identity Matrix Seeded.")

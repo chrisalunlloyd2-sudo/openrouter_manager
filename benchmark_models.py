@@ -16,21 +16,21 @@ def benchmark_model(model_path):
         "-n", "100",
         "--threads", "4"
     ]
-    
+
     start_time = time.time()
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
         end_time = time.time()
-        
+
         # Thermal Throttling Gap (4s)
         time.sleep(4)
-        
+
         duration = end_time - start_time
         output = result.stdout.strip()
-        
+
         print(f"  Duration: {duration:.2f}s")
         print(f"  Output: {output[:100]}...")
-        
+
         return {
             "model": os.path.basename(model_path),
             "duration": duration,
@@ -43,21 +43,21 @@ def benchmark_model(model_path):
 def run_benchmarks():
     results = []
     models = [f for f in os.listdir(MODELS_DIR) if f.endswith(".gguf")]
-    
+
     for model in sorted(models):
         model_path = os.path.join(MODELS_DIR, model)
         # Skip if too big for immediate benchmark (> 2GB)
         if os.path.getsize(model_path) > 2 * 1024 * 1024 * 1024:
             print(f"Skipping {model} (Too large for quick benchmark)")
             continue
-            
+
         res = benchmark_model(model_path)
         if res:
             results.append(res)
-            
+
     with open("benchmark_results.json", "w") as f:
         json.dump(results, f, indent=4)
-    
+
     print("\n" + "="*40)
     print(" BENCHMARK COMPLETE")
     print("="*40)

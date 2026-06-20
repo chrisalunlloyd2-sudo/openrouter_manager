@@ -23,33 +23,33 @@ def execute(payload_file):
         for i in range(1, len(parts), 2):
             filepath = parts[i].strip()
             code_block = parts[i+1]
-            
+
             # --- CRITICAL FIX: Stop at [CMD] or [SUMMARY] or [FILE] ---
             code_block = re.split(r'\[CMD.*?\]|\[SUMMARY\]', code_block)[0]
-            
+
             # --- PATH NORMALIZATION (GEN 8) ---
             if 'downloads/' in filepath.lower():
                 filepath = filepath.replace('Downloads/', 'downloads/')
                 filepath = os.path.expanduser('~/downloads/') + os.path.basename(filepath)
-            
+
             # Strip enclosing markdown code blocks robustly
             code_lines = code_block.strip().split('\n')
             if code_lines and code_lines[0].startswith('```'):
                 code_lines = code_lines[1:]
-            
+
             # Find the closing ``` that belongs to the outer block
             end_idx = len(code_lines)
             for j in range(len(code_lines)-1, -1, -1):
                 if code_lines[j].strip() == '```':
                     end_idx = j
                     break
-            
+
             code = '\n'.join(code_lines[:end_idx])
 
             dir_path = os.path.dirname(filepath)
             if dir_path and not os.path.exists(dir_path):
                 os.makedirs(dir_path, exist_ok=True)
-                
+
             with open(filepath, 'w') as f:
                 f.write(code.strip() + '\n')
             print(f"  -> Created/Updated: {filepath}")
@@ -62,7 +62,7 @@ def execute(payload_file):
             cmd_lines = cmd_block.strip().split('\n')
             if cmd_lines[0].startswith('```'):
                 cmd_lines = cmd_lines[1:]
-            
+
             end_idx = len(cmd_lines)
             for j in range(len(cmd_lines)-1, -1, -1):
                 if cmd_lines[j].strip() == '```':

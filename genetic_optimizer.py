@@ -22,14 +22,14 @@ def fitness(response_text, duration):
     # The shorter the response, the better. If it contains explanations, bad.
     response_text = response_text.strip()
     length_penalty = len(response_text)
-    
+
     # Check for correct command
     correctness = 0
     if "touch " in response_text and "txt.txt" in response_text:
         correctness = 1000
     if "mkdir" in response_text:
         correctness -= 500 # It tried to make a dir instead of a file
-        
+
     score = correctness - length_penalty - (duration * 10)
     return score, response_text
 
@@ -44,9 +44,9 @@ for i, p in enumerate(prompts):
         "temperature": 0.1,
         "stop": ["</s>", "```"]
     }).encode('utf-8')
-    
+
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-    
+
     start = time.time()
     try:
         with urllib.request.urlopen(req) as response:
@@ -56,10 +56,10 @@ for i, p in enumerate(prompts):
     except Exception as e:
         text = str(e)
     duration = time.time() - start
-    
+
     score, clean_text = fitness(text, duration)
     print(f"Gen {i} | Time: {duration:.2f}s | Score: {score:.1f} | Output: {clean_text}")
-    
+
     if score > best_score:
         best_score = score
         best_prompt_idx = i

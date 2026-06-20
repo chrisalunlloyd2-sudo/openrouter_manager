@@ -49,12 +49,12 @@ def run_cognitive_layer(prompt):
 def run_execution_layer(plan):
     """Extracts commands and uses Aider to implement changes."""
     print("[Danube Orchestrator] Routing generated code to Execution Layer (Aider)...")
-    
+
     # If no code blocks are found, we can skip aider to save time, but aider handles text fine.
     # Write plan to a temporary file to pass to aider safely
     with open(".matrix_temp_plan.md", "w") as f:
         f.write(plan)
-        
+
     cmd = ["aider", "--message-file", ".matrix_temp_plan.md", "--yes", "--no-auto-commits"]
     try:
         # Redirect stdout to devnull to keep the terminal clean, only show errors
@@ -80,7 +80,7 @@ def main():
     print("               -> [Aider Execution] -> [GitHub Syphon] -> [Terminal] ")
     print(f" Pacing: Maximum 15 pings/minute ({MIN_PING_INTERVAL_SEC}s duty cycle)")
     print("=====================================================================\n")
-    
+
     while True:
         try:
             # Danube Input Filter
@@ -89,45 +89,45 @@ def main():
                 break
             if not user_input.strip():
                 continue
-            
+
             # --- 1. COGNITIVE PHASE ---
             print_topic_update(
                 title="Cognitive API Processing",
                 summary="Danube is pacing the request and routing the sanitized input to the OpenRouter API. OpenRouter will generate the architectural logic.",
                 intent="Querying cognitive engine for code performatives."
             )
-            
+
             plan = run_cognitive_layer(user_input)
-            
+
             if not plan.strip():
                 print("[Danube Orchestrator] Received empty response from OpenRouter API. Aborting cycle.")
                 continue
-                
+
             # Print a clean snippet of what the AI decided
             print(f"\n[OpenRouter API Output (Truncated)]\n{plan[:300]}...\n")
-            
+
             # --- 2. EXECUTION PHASE ---
             print_topic_update(
                 title="Aider Execution Routing",
                 summary="Danube has received the cognitive plan and is now injecting it into the Aider headless process to surgically modify the workspace files.",
                 intent="Applying AI-generated code to local filesystem."
             )
-            
+
             run_execution_layer(plan)
-            
+
             # --- 3. SYPHON PHASE ---
             print_topic_update(
                 title="GitHub State Syphoning",
                 summary="Execution complete. Danube is now triggering the GitHub Operator to commit and push changes, establishing the seed state for the next recursive cycle.",
                 intent="Persisting execution state to GitHub repository."
             )
-            
+
             commit_msg = f"autonomous: {user_input[:40]}..."
             run_sync_layer(commit_msg)
-            
+
             print("\n[Danube Orchestrator] Recursive cycle finished. Standing by for next state hash.")
             print("---------------------------------------------------------------------\n")
-            
+
         except KeyboardInterrupt:
             print("\n[!] Orchestrator loop interrupted by user.")
             break

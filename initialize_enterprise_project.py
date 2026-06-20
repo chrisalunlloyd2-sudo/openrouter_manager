@@ -35,9 +35,9 @@ def generate_ascii_tree(path="."):
 README_TEMPLATE = """# 🌌 PocketMatrix OS (H2O Matrix CE)
 
 ## 📜 The Mission
-The PocketMatrix OS is a fully manifested, 900-step architectural Singularity. It transforms a standard 32-bit Android environment into a distributed, AI-driven Windows CE-styled agentic network. 
+The PocketMatrix OS is a fully manifested, 900-step architectural Singularity. It transforms a standard 32-bit Android environment into a distributed, AI-driven Windows CE-styled agentic network.
 
-**The Core Mission is Gamification & Simplification.** 
+**The Core Mission is Gamification & Simplification.**
 By wrapping highly complex neural-symbolic loops, cross-device network protocols, and agentic orchestration inside a nostalgic, point-and-click Windows CE desktop, the cognitive load required to operate the system is drastically reduced. It provides a visual, interactive workspace where learning (pedagogy) and execution (agentic routing) happen naturally. The user is empowered to orchestrate disparate databases, APIs, and models from a single, unified command center that feels like playing an OS simulation game.
 
 ## ✨ Feature Definitions & Rationale
@@ -116,7 +116,7 @@ def initialize():
     os.chdir(project_root)
     project_name = "MATRIX_GEN8_HOME"
     token = get_token()
-    
+
     if not token:
         print("[-] Missing OAuth token. Cannot proceed.")
         return
@@ -126,16 +126,16 @@ def initialize():
     # Git Setup
     if not os.path.exists(".git"):
         subprocess.run(["git", "init"], check=False)
-    
+
     # Generate README with deep tree
     tree = generate_ascii_tree("PocketMatrix")
     with open("README.md", "w") as f:
         f.write(README_TEMPLATE.format(tree=tree))
-    
+
     # Sync State securely via token injection
     push_url = f"https://{token}@github.com/chrisalunlloyd2-sudo/{project_name}.git"
     ce_url = f"https://{token}@github.com/chrisalunlloyd2-sudo/H2OMatrixCE.git"
-    
+
     subprocess.run(["git", "add", "README.md", "H2OIDE/initialize_enterprise_project.py"], check=False)
     subprocess.run(["git", "commit", "-m", "Enterprise: Auto-generated gamified README with complete feature definitions."], check=False)
     subprocess.run(["git", "push", push_url, "main", "--force"], check=False)
