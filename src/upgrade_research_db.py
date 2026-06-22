@@ -4,7 +4,7 @@ def upgrade_db():
     print("[+] Upgrading Cognitive DB with Research & Case Study schemas...")
     conn = sqlite3.connect('/data/data/com.termux/files/home/openrouter_manager/pedagogy_cognitive.db')
     cursor = conn.cursor()
-    
+
     # Case Studies Table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS case_studies (
@@ -16,7 +16,7 @@ def upgrade_db():
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     ''')
-    
+
     # Research Queue
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS research_queue (
@@ -26,7 +26,7 @@ def upgrade_db():
         priority INTEGER DEFAULT 1
     )
     ''')
-    
+
     conn.commit()
     conn.close()
     print("[+] Research schemas locked.")
