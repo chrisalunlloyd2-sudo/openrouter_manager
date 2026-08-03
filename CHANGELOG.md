@@ -14,6 +14,7 @@ All notable changes to this project.
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
+- **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-03 12:01 ($hash)
 
 ## 2026-07
@@ -58,5 +59,4 @@ All notable changes to this project.
 - **[Changed]** Enterprise: Automated Project Sync ($hash)
 - **[Changed]** Enterprise: Automated Project Sync ($hash)
 - **[Changed]** Standardized E2E_Test_Deploy_6172 to v10.2 System Bible ($hash)
-- **[Changed]** Standardized AegisAgent to v10.2 System Bible ($hash)
 
