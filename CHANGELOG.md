@@ -30,6 +30,7 @@ All notable changes to this project.
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
+- **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-03 12:01 ($hash)
 
 ## 2026-07
@@ -58,5 +59,4 @@ All notable changes to this project.
 - **[Changed]** autonomous: headless danube extraction ($hash)
 - **[Changed]** Initial commit of Open Router Manager ($hash)
 - **[Changed]** autonomous: headless danube extraction ($hash)
-- **[Changed]** Added case study on feline intelligence ($hash)
 
