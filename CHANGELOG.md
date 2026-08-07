@@ -50,7 +50,7 @@ All notable changes to this project.
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
-- **[Docs]** docs(openrouter_manager): autonomous update ΓÇö 2 file(s) ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
+- **[Docs]** docs(openrouter_manager): autonomous update ΓÇö 2 file(s) ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 
