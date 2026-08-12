@@ -3,6 +3,7 @@
 All notable changes to this project.
 
 ## 2026-08
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 16:38 ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 15:48 ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 14:39 ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 13:50 ($hash)
@@ -12,7 +13,6 @@ All notable changes to this project.
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 08:36 ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 06:42 ($hash)
 - **[Changed]** [Moe autonomous] openrouter_manager 2026-08-12 04:27 ($hash)
-- **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
