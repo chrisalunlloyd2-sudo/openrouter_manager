@@ -1,6 +1,56 @@
-# 📜 CHANGELOG
-## [v0.1.0] - 2026-05-23
-- Initialized Enterprise Project SOP.
-- Created architectural Blueprint.md.
-- Synchronized with Agentic Network.
-- established continuous backup protocol.
+﻿# Changelog
+
+All notable changes to this project.
+
+## 2026-08
+- **[Docs]** docs: document 2 public API in src\double_consent.py (autonomous, logic-verified) ($hash)
+- **[Docs]** docs: document 2 public API in src\utils.py (autonomous, logic-verified) ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 03:27 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 02:55 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 02:13 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 01:30 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 00:50 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-15 00:13 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 23:34 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 22:52 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 22:25 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 21:31 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 20:51 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 20:19 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 19:39 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 18:53 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 18:12 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 16:58 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 16:17 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 15:21 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 13:11 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 11:11 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 08:56 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 04:10 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-14 01:22 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 23:23 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 21:56 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 20:19 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 19:37 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 19:03 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 18:02 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 17:29 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 16:47 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 16:13 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 15:38 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 15:05 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 14:30 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 13:50 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 13:00 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 12:25 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 11:42 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 11:02 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 10:16 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 09:42 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 09:10 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 08:30 ($hash)
+- **[Docs]** docs(openrouter_manager): autonomous update ΓÇö 5 file(s) ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 07:51 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 07:24 ($hash)
+- **[Changed]** [Moe autonomous] openrouter_manager 2026-08-13 06:25 ($hash)
+

@@ -50,32 +50,32 @@ def master_loop(initial_prompt):
     print("=====================================================================")
     print(" 🌀 RECURSIVE DATA CIRCLE - CONTEXT OPTIMIZED ")
     print("=====================================================================\n")
-    
+
     if "operating system" in initial_prompt.lower() or len(initial_prompt) > 200:
         if not binomial_consent(initial_prompt): return
 
     current_prompt = initial_prompt
     history = ""
     iteration = 1
-    
+
     while iteration <= 5:
         print(f"[Master Loop] Iteration {iteration}...")
         response = run_cognitive_layer(current_prompt, history)
         if not response.strip(): break
-        
+
         print(f"\n--- [AI PILOT RESPONSE] ---\n{response[:300]}...\n")
-        
+
         payload_file = ".pilot_payload.md"
         with open(payload_file, "w") as f:
             f.write(response)
-        
+
         executor_script = os.path.join(PROJECT_ROOT, "src/danube_executor.py")
         subprocess.run(["python3", executor_script, payload_file])
-        
+
         history = hashlib.sha256(response.encode()).hexdigest()[:16]
-        
+
         if "[STATUS: SATISFIED]" in response: break
-        
+
         next_step_match = re.search(r'\[NEXT_STEP:\s*(.*?)\]', response)
         if next_step_match:
             current_prompt = f"Proceed with Next Step: {next_step_match.group(1)}"

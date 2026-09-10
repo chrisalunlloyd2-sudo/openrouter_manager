@@ -164,21 +164,21 @@ def call_llm_agy(task):
 
 def teach():
     print("🎓 AGENTIC PEDAGOGY: DATABASE FOCUS...")
-    
+
     for step in CURRICULUM:
         print(f"\n[{step['name']}]")
         print(f"  Target: {step['task']}")
         success = False
-        
+
         for attempt in range(1, 4):
             print(f"  Attempt {attempt}...")
             cmd = call_llm_agy(step['task'])
             print(f"    AI Suggestion: {cmd}")
-            
+
             if not cmd or cmd.startswith("ERROR"):
                 print("    [!] LLM error or empty response")
                 continue
-            
+
             try:
                 # Execute suggested command
                 subprocess.run(cmd, shell=True, cwd=WORKSPACE, check=True, capture_output=True, timeout=10)
@@ -191,7 +191,7 @@ def teach():
                     print(f"  ❌ FAIL: Verification logic failed.")
             except Exception as e:
                 print(f"  ❌ FAIL: {e}")
-                
+
         if not success:
             print(f"  🛑 CRITICAL FAILURE: Model cannot pass {step['name']}.")
             # Continue to next lesson even on failure for broad testing

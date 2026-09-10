@@ -12,7 +12,7 @@ def execute(payload_file):
     project_root = os.environ.get("PROJECT_ROOT", os.getcwd())
     project_name = os.path.basename(project_root)
     print(f"[Danube Executor] Parsing payload in: {project_root}")
-    
+
     try:
         with open(payload_file, 'r', errors='ignore') as f:
             content = f.read()
@@ -25,27 +25,27 @@ def execute(payload_file):
     if len(parts) > 1:
         for i in range(1, len(parts), 2):
             filepath = parts[i].strip()
-            
+
             # Expand ~ and relative markers
             filepath = filepath.replace('~', '/data/data/com.termux/files/home')
-            
+
             # Strip lead project name if redundant
             if filepath.startswith(f"{project_name}/"):
                 filepath = filepath[len(project_name)+1:]
-            
+
             if not filepath.startswith('/'):
                 full_path = os.path.abspath(os.path.join(project_root, filepath))
             else:
                 full_path = os.path.abspath(filepath)
-            
+
             # SECURITY: Ensure the path is within the home directory
             if not full_path.startswith('/data/data/com.termux/files/home'):
                 print(f"  -> [!] BLOCKED OUT-OF-BOUNDS PATH: {full_path}")
                 continue
-                
+
             code_block = parts[i+1]
             code_lines = code_block.strip().split('\n')
-            
+
             if len(code_lines) > 0:
                 if code_lines[0].startswith('```'):
                     code_lines = code_lines[1:]
@@ -91,12 +91,12 @@ def execute(payload_file):
                         end_idx = j
                         break
                 cmd_str = '\n'.join(cmd_lines[:end_idx]).strip()
-                
+
                 # IMPROVED BLOCKING: Use regex word boundaries (\b) to avoid matching inside "swarm"
                 if re.search(r'\brm\b|\bgit\s+rm\b|\bmv\b', cmd_str) and "mkdir" not in cmd_str:
                     print(f"  -> [!] BLOCKED DELETION/MOVE ATTEMPT: {cmd_str}")
                     continue
-                
+
                 print(f"  -> Executing Shell: {cmd_str}")
                 subprocess.run(cmd_str, shell=True, check=False, cwd=project_root)
 

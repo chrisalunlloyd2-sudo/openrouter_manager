@@ -27,7 +27,7 @@ class QualityContentEngine:
         return True
 
     def generate_page_metadata(self, count=10):
-        topics = ["Evolution", "Genetics", "Domestication", "Anatomy", "Senses", 
+        topics = ["Evolution", "Genetics", "Domestication", "Anatomy", "Senses",
                   "Communication", "Social Structure", "Hunting", "Nutrition", "Longevity"]
         return [{"id": i, "topic": topics[i]} for i in range(count)]
 

@@ -7,14 +7,14 @@ import sys
 
 def perform_upload(commit_msg="autonomous: high-fidelity manifestation"):
     print("[Github Operator] Engaging Enterprise Upload SOPs...")
-    
+
     # 1. Security Scrub
     if os.path.exists("oauth_creds.json"):
         os.remove("oauth_creds.json")
-    
+
     # 2. Path Hardening
     repo_dir = os.path.dirname(os.path.abspath(__file__))
-    
+
     try:
         # Check for remote origin
         remote_res = subprocess.run(["git", "remote", "-v"], cwd=repo_dir, capture_output=True, text=True)
@@ -24,14 +24,14 @@ def perform_upload(commit_msg="autonomous: high-fidelity manifestation"):
             subprocess.run(["python3", os.path.expanduser("~/initialize_enterprise_project.py")], cwd=repo_dir)
 
         subprocess.run(["git", "add", "."], cwd=repo_dir, check=True)
-        
+
         status = subprocess.run(["git", "status", "--porcelain"], cwd=repo_dir, capture_output=True, text=True).stdout
         if not status.strip():
             print("[Github Operator] Substrate already synchronized.")
             return
 
         subprocess.run(["git", "commit", "-m", commit_msg], cwd=repo_dir, check=True)
-        
+
         # 3. Forced Push Protocol (Enterprise Fidelity)
         print("[Github Operator] Pushing to Enterprise Cloud...")
         subprocess.run(["git", "push", "origin", "main"], cwd=repo_dir, check=True)

@@ -20,7 +20,7 @@ def audit_repo(repo_name):
 
     os.chdir(target_dir)
     issues = []
-    
+
     # Audit README.md with Unicode resilience
     readme_path = "README.md"
     if not os.path.exists(readme_path):
@@ -63,9 +63,9 @@ def main():
 
     log("Commencing Global Audit v1.1...")
     needs_fix = [r for r in repos if r != "openrouter_manager" and audit_repo(r)]
-    
+
     log(f"Found {len(needs_fix)} repos requiring repair.")
-    
+
     for repo in needs_fix[:5]: # Process 5 at a time for stability
         run_fix_pass(repo)
         time.sleep(3)

@@ -15,21 +15,21 @@ DB_PATH = "/data/data/com.termux/files/home/openrouter_manager/pedagogy_cognitiv
 
 def run_research(topic, sources):
     print(f"\n[Research Analyst] Initiating Deep Dive: {topic}")
-    
+
     # Construct a high-fidelity research prompt
     prompt = f"""
     RESEARCH TOPIC: {topic}
     SOURCES: {sources}
-    
+
     TASK:
     1. Synthesize a multi-layered technical case study.
     2. Format it as an IQ-300 'System Bible' chapter.
     3. Include: Abstract, Architecture Analysis, Genetic Mutation Hypotheses, and Performance Benchmarks.
     4. Output strictly using [FILE: docs/case_studies/{topic.replace(' ', '_')}.md] blocks.
-    
+
     MANDATE: BE SCARY SMART. DO NOT YAP.
     """
-    
+
     # Route through the Director to leverage OpenRouter
     cmd = ["python3", DIRECTOR_PATH, prompt]
     try:

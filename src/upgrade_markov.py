@@ -4,7 +4,7 @@ def upgrade_markov_schema():
     print("[+] Upgrading Pedagogy DB for Markov Transition Logic...")
     conn = sqlite3.connect('/data/data/com.termux/files/home/openrouter_manager/pedagogy_cognitive.db')
     cursor = conn.cursor()
-    
+
     # Markov Transition Matrix Table
     # Stores the probability/weight of moving from one architectural state to another
     cursor.execute('''
@@ -16,7 +16,7 @@ def upgrade_markov_schema():
         PRIMARY KEY (current_state, next_action)
     )
     ''')
-    
+
     # Seed initial Markov states
     states = [
         ('INITIAL', 'WEBCRAWL'),
@@ -27,7 +27,7 @@ def upgrade_markov_schema():
         ('TEST', 'COMMIT'),
         ('TEST', 'ROLLBACK')
     ]
-    
+
     for current, action in states:
         cursor.execute("INSERT OR IGNORE INTO markov_transitions (current_state, next_action) VALUES (?, ?)", (current, action))
 
